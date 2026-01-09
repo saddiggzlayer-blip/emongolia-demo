@@ -1,51 +1,56 @@
-body { background-color: #0042a0; margin: 0; font-family: sans-serif; }
-.app-container { max-width: 400px; margin: 0 auto; min-height: 100vh; }
+body { background-color: #003a94; margin: 0; font-family: 'Arial', sans-serif; overflow: hidden; }
+.app-container { max-width: 420px; margin: 0 auto; height: 100vh; position: relative; }
+.app-header { display: flex; justify-content: space-between; padding: 15px 20px; color: white; align-items: center; }
 
-/* THE SECURITY PATTERN BACKGROUND */
-.security-pattern {
-    position: absolute; width: 100%; height: 100%; top: 0; left: 0;
-    opacity: 0.1; pointer-events: none; border-radius: 12px;
-    background-image: radial-gradient(#0047AB 0.5px, transparent 0.5px);
-    background-size: 10px 10px;
-}
-
-.id-card { width: 350px; height: 220px; transform-style: preserve-3d; transition: 0.6s; margin: 0 auto; cursor: pointer; position: relative; }
+/* THE ID CARD */
+.card-scene { perspective: 1200px; display: flex; justify-content: center; margin-top: 15px; }
+.id-card { width: 345px; height: 218px; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; }
 .id-card.flipped { transform: rotateY(180deg); }
 
-.id-front, .id-back {
-    position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-    background-color: #f4ecd8; border-radius: 12px; padding: 15px; box-sizing: border-box;
-    border: 1px solid #d4c4a8; overflow: hidden;
+.id-front, .id-back { 
+    backface-visibility: hidden; position: absolute; width: 100%; height: 100%; 
+    background-color: #f7f1e3; border-radius: 12px; padding: 15px; box-sizing: border-box;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 1px solid #d1c4ab;
 }
 
 .id-back { transform: rotateY(180deg); }
 
-/* PHOTO & INFO */
-#id-photo { width: 95px; height: 120px; border: 1px solid #aaa; object-fit: cover; background: white; border-radius: 2px; }
-
-.info-grid label { font-size: 7px; color: #0047AB; font-weight: bold; display: block; margin-top: 3px; }
-.val { font-size: 11px; font-weight: bold; color: #222; margin-bottom: 2px; }
-
-/* CHIP & QR */
-.chip-gold { 
-    width: 45px; height: 35px; background: #e5c100; border-radius: 5px; 
-    margin: 50px 0 10px 0; border: 1px solid #b8860b; position: relative;
+/* SECURITY PATTERN */
+.security-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: repeating-linear-gradient(45deg, rgba(0, 71, 171, 0.03) 0px, rgba(0, 71, 171, 0.03) 1px, transparent 1px, transparent 4px);
+    pointer-events: none; border-radius: 12px;
 }
-.chip-line { width: 100%; height: 1px; background: #b8860b; position: absolute; top: 33%; }
 
-.qr-container { position: absolute; bottom: 15px; left: 15px; text-align: center; }
-.qr-code { 
-    width: 50px; height: 50px; 
-    background: url('https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=MNG-ID'); 
-    background-size: cover; border: 2px solid white;
-}
-.mng-code { font-size: 10px; font-weight: bold; background: white; margin: 0; padding: 2px; }
+/* FRONT DETAILS */
+.flag { width: 36px; height: 24px; background: linear-gradient(to right, #ed2e38 33.3%, #0032a0 33.3% 66.6%, #ed2e38 66.6%); border: 0.5px solid #aaa; }
+.header-titles { margin-left: 45px; margin-top: -26px; }
+.mn-title { color: #0047AB; font-size: 11px; font-weight: bold; margin: 0; }
+.en-title { color: #5D8AA8; font-size: 9px; margin: 0; }
+
+.card-body { display: flex; gap: 12px; margin-top: 15px; }
+#id-photo { width: 90px; height: 118px; border: 1px solid #888; object-fit: cover; background: #fff; }
+
+.info-grid label { font-size: 7.5px; color: #0047AB; font-weight: bold; display: block; margin-top: 3px; }
+.val { font-size: 11.5px; font-weight: 700; color: #111; text-transform: uppercase; min-height: 14px; }
+.val-red { font-size: 12px; font-weight: bold; color: #c0392b; letter-spacing: 0.5px; }
+.row { display: flex; gap: 15px; }
+
+/* BACK DETAILS */
+.chip-gold { width: 48px; height: 38px; background: linear-gradient(135deg, #f1c40f, #d4ac0d); border-radius: 6px; margin-top: 50px; border: 1px solid #a67c00; position: relative; }
+.chip-line { width: 100%; height: 1px; background: rgba(0,0,0,0.2); position: absolute; top: 40%; }
+.qr-box { position: absolute; bottom: 15px; left: 15px; }
+.qr-code { width: 52px; height: 52px; background: url('https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=MNGID'); background-size: cover; border: 1px solid #fff; }
+.mng-label { font-size: 9px; font-weight: bold; text-align: center; background: white; width: 100%; border: 1px solid #ccc; }
 
 /* APP UI */
-.app-header { display: flex; justify-content: space-between; padding: 20px; color: white; }
-.app-buttons { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-.btn-blue { background: #0066ff; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; }
-.btn-light { background: #e3efff; color: #0066ff; border: none; padding: 15px; border-radius: 12px; font-weight: bold; }
+.app-buttons { padding: 25px; display: flex; flex-direction: column; gap: 12px; }
+.btn-blue { background: #0056FF; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.btn-light { background: #e8f0fe; color: #0056FF; border: none; padding: 16px; border-radius: 12px; font-weight: bold; }
 
-.editor-panel { position: fixed; bottom: 0; background: white; width: 100%; padding: 20px; border-radius: 20px 20px 0 0; z-index: 99; box-sizing: border-box;}
+/* EDITOR UI */
+.editor-panel { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px; border-radius: 20px 20px 0 0; z-index: 100; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); color: #333; }
+.scroll-area { max-height: 350px; overflow-y: auto; padding-bottom: 10px; }
+.editor-panel input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
 .hidden { display: none; }
+.save-btn { width: 100%; background: #0047AB; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 10px; }

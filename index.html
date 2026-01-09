@@ -19,7 +19,7 @@
             <div class="id-card" id="card" onclick="flipCard()">
                 
                 <div class="id-front">
-                    <div class="security-pattern"></div>
+                    <div class="security-overlay"></div>
                     <div class="card-header">
                         <div class="flag"></div>
                         <div class="header-titles">
@@ -29,19 +29,22 @@
                     </div>
                     
                     <div class="card-body">
-                        <div class="photo-container">
+                        <div class="photo-area">
                             <img id="id-photo" src="https://via.placeholder.com/100x125?text=Photo">
                         </div>
                         <div class="info-grid">
-                            <label>Овог / Family name</label>
-                            <div id="display-fname" class="val">---</div>
-                            
-                            <label>Эцэг/эх нэр / Surname</label>
-                            <div id="display-sname" class="val">---</div>
-                            
-                            <label>Нэр / Given name</label>
-                            <div id="display-name" class="val">---</div>
-                            
+                            <div class="field">
+                                <label>Овог / Family name</label>
+                                <div id="display-fname" class="val">---</div>
+                            </div>
+                            <div class="field">
+                                <label>Эцэг/эх нэр / Surname</label>
+                                <div id="display-sname" class="val">---</div>
+                            </div>
+                            <div class="field">
+                                <label>Нэр / Given name</label>
+                                <div id="display-name" class="val">---</div>
+                            </div>
                             <div class="row">
                                 <div class="col">
                                     <label>Хүйс / Sex</label>
@@ -52,14 +55,16 @@
                                     <div id="display-date" class="val">0000.00.00</div>
                                 </div>
                             </div>
-                            <label>Регистрийн дугаар / Reg Number</label>
-                            <div id="display-id-num" class="val" style="color:#d32f2f;">AA00000000</div>
+                            <div class="field">
+                                <label>Регистрийн дугаар / Reg Number</label>
+                                <div id="display-id-num" class="val-red">AA00000000</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="id-back">
-                    <div class="security-pattern"></div>
+                    <div class="security-overlay"></div>
                     <div class="back-header">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Emblem_of_Mongolia.svg/1200px-Emblem_of_Mongolia.svg.png" class="back-logo">
                         <div class="back-header-text">
@@ -70,17 +75,18 @@
                     
                     <div class="back-content">
                         <div class="chip-gold">
-                            <div class="chip-line"></div><div class="chip-line"></div>
+                            <div class="chip-line"></div>
+                            <div class="chip-line" style="top: 60%"></div>
                         </div>
                         <div class="dates-section">
                             <label>Олгосон / Issued</label>
-                            <div id="display-issue" class="val">2022/08/15</div>
+                            <div id="display-issue" class="val">0000/00/00</div>
                             <label>Хүчинтэй / Expiry</label>
-                            <div id="display-expiry" class="val">2031/06/28</div>
+                            <div id="display-expiry" class="val">0000/00/00</div>
                         </div>
-                        <div class="qr-container">
+                        <div class="qr-box">
                             <div class="qr-code"></div>
-                            <p class="mng-code">MNG</p>
+                            <div class="mng-label">MNG</div>
                         </div>
                     </div>
                 </div>
@@ -93,16 +99,23 @@
         </div>
 
         <div id="editor-panel" class="editor-panel hidden">
-            <h3>Засварлах</h3>
-            <div class="scroll-box">
+            <div class="editor-header">
+                <h3>Мэдээлэл засах</h3>
+                <button onclick="toggleEditor()">X</button>
+            </div>
+            <div class="scroll-area">
+                <label>Зураг:</label>
                 <input type="file" id="image-input" accept="image/*">
-                <input type="text" id="fname-input" placeholder="Овог">
-                <input type="text" id="sname-input" placeholder="Эцэг/эх нэр">
-                <input type="text" id="name-input" placeholder="Нэр">
-                <input type="text" id="sex-input" placeholder="Хүйс (Эм/Эр)">
+                <input type="text" id="fname-input" placeholder="Овог (Family Name)">
+                <input type="text" id="sname-input" placeholder="Эцэг/эх нэр (Surname)">
+                <input type="text" id="name-input" placeholder="Нэр (Given Name)">
+                <input type="text" id="sex-input" placeholder="Хүйс (Эрэгтэй/Эмэгтэй)">
+                <label>Төрсөн өдөр:</label>
                 <input type="date" id="date-input">
                 <input type="text" id="id-num-input" placeholder="Регистрийн дугаар">
+                <label>Олгосон өдөр:</label>
                 <input type="date" id="issue-input">
+                <label>Дуусах өдөр:</label>
                 <input type="date" id="expiry-input">
             </div>
             <button class="save-btn" onclick="updateID()">Хадгалах</button>
