@@ -1,0 +1,36 @@
+.emongolia-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 25px;
+    max-width: 450px;
+    margin: 50px auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.photo-section img {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid #007bff;
+}
+
+.info-section input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.save-btn {
+    background: #007bff;
+    color: white;
+    width: 100%;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}

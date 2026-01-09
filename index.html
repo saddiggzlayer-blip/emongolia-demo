@@ -69,3 +69,21 @@
 
 </body>
 </html>
+<div class="emongolia-card">
+    <div class="photo-section">
+        <img id="id-photo" src="https://via.placeholder.com/150" alt="ID Photo">
+        <input type="file" id="upload-btn" hidden>
+        <button onclick="document.getElementById('upload-btn').click()">Upload ID Photo</button>
+    </div>
+
+    <div class="info-section">
+        <input type="text" id="user-name" placeholder="Full Name">
+        <input type="date" id="user-birthday">
+        <button class="save-btn" onclick="saveToMemory()">Update Official Info</button>
+    </div>
+
+    <div class="display-panel">
+        <p>Name: <span id="display-name">---</span></p>
+        <p>Birthday: <span id="display-date">---</span></p>
+    </div>
+</div>
