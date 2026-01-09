@@ -1,92 +1,45 @@
-body {
-    background-color: #0047AB; /* Official e-Mongolia Blue */
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: white;
-}
+body { background-color: #0047AB; margin: 0; font-family: -apple-system, sans-serif; overflow-x: hidden; }
+.app-container { max-width: 450px; margin: 0 auto; min-height: 100vh; position: relative; }
+.app-header { display: flex; justify-content: space-between; padding: 15px 20px; color: white; align-items: center; }
 
-.app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-}
-
-.app-header h1 { font-size: 18px; margin: 0; }
-.settings-icon { font-size: 24px; cursor: pointer; }
-
-/* THE ID CARD DESIGN */
-.card-scene {
-    perspective: 1000px;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.id-card {
-    width: 340px;
-    height: 210px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.6s;
-    cursor: pointer;
-}
-
+/* THE CARD */
+.card-scene { perspective: 1000px; display: flex; justify-content: center; margin-top: 10px; }
+.id-card { width: 345px; height: 215px; transform-style: preserve-3d; transition: 0.6s; position: relative; cursor: pointer; }
 .id-card.flipped { transform: rotateY(180deg); }
-
-.id-front, .id-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 12px;
-    padding: 15px;
-    box-sizing: border-box;
+.id-front, .id-back { 
+    backface-visibility: hidden; position: absolute; width: 100%; height: 100%; top: 0; left: 0; 
+    background-color: #f6efe4; border-radius: 12px; padding: 12px; box-sizing: border-box;
 }
+.id-back { transform: rotateY(180deg); }
 
-.id-front {
-    background: #eef2f3;
-    color: #333;
-    border: 1px solid #ccc;
-}
+/* FRONT DETAILS */
+.header-titles { margin-left: 45px; margin-top: -30px; }
+.mn-title { color: #0047AB; font-size: 11px; font-weight: 800; margin: 0; }
+.en-title { color: #5D8AA8; font-size: 9px; margin: 0; }
+.flag { width: 35px; height: 22px; background: linear-gradient(to right, red 33%, blue 33% 66%, red 66%); border: 1px solid #ccc; }
 
-.card-header { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
-.soyombo { width: 30px; }
-.header-text p { margin: 0; font-size: 10px; font-weight: bold; color: #0047AB; }
+.card-body { display: flex; gap: 12px; margin-top: 15px; }
+#id-photo { width: 90px; height: 115px; border: 1px solid #999; object-fit: cover; background: #eee; }
 
-.card-body { display: flex; gap: 15px; margin-top: 10px; }
-#id-photo { width: 90px; height: 115px; border-radius: 4px; object-fit: cover; background: #ddd; }
+.info-grid label { font-size: 7px; color: #0047AB; font-weight: bold; margin-top: 4px; display: block; }
+.val { font-size: 11px; font-weight: 700; color: #222; text-transform: uppercase; }
+.row { display: flex; gap: 20px; }
 
-.card-info label { font-size: 9px; color: #777; display: block; }
-.val { font-size: 14px; font-weight: bold; margin-bottom: 5px; }
+/* BACK DETAILS */
+.back-logo { width: 40px; float: left; margin-right: 10px; }
+.back-header-text p { margin: 0; font-size: 8px; color: #333; }
+.blue-bold { color: #0047AB !important; font-weight: bold; font-size: 10px !important; }
+.chip-gold { width: 50px; height: 38px; background: radial-gradient(#ffd700, #b8860b); border-radius: 6px; margin: 50px 0 10px 0; border: 1px solid #8b6508; }
+.qr-code { width: 55px; height: 55px; background: url('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=e-Mongolia'); background-size: cover; position: absolute; bottom: 15px; left: 15px; }
 
-.id-back {
-    background: #ddd;
-    transform: rotateY(180deg);
-}
-
-.mag-strip { background: #222; height: 35px; width: 100%; position: absolute; top: 20px; left: 0; }
-.barcode { background: repeating-linear-gradient(90deg, #000 0 2px, transparent 2px 4px); height: 40px; margin-top: 70px; }
+/* BUTTONS */
+.app-buttons { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+.btn-blue { background: #0056FF; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 16px; }
+.btn-light { background: #E8F0FE; color: #0056FF; border: none; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 16px; }
 
 /* EDITOR PANEL */
-.editor-panel {
-    background: white;
-    color: #333;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
+.editor-panel { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px; border-radius: 20px 20px 0 0; color: #333; box-shadow: 0 -5px 20px rgba(0,0,0,0.3); z-index: 100; }
+.scroll-box { max-height: 300px; overflow-y: auto; padding-right: 10px; }
+.editor-panel input { width: 100%; padding: 10px; margin: 5px 0 15px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
 .hidden { display: none; }
-
-.save-btn {
-    background: #0047AB;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: bold;
-}
+.save-btn { width: 100%; background: #0047AB; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; }

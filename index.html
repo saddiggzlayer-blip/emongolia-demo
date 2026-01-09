@@ -1,65 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>e-Mongolia Digital ID</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+function flipCard() {
+    document.getElementById('card').classList.toggle('flipped');
+}
 
-    <div class="app-container">
-        <div class="app-header">
-            <span class="back-arrow">‹</span>
-            <h1>Иргэний үнэмлэх</h1>
-            <span class="settings-icon" onclick="toggleEditor()">⚙️</span>
-        </div>
+function toggleEditor() {
+    document.getElementById('editor-panel').classList.toggle('hidden');
+}
 
-        <div class="card-scene">
-            <div class="id-card" id="card" onclick="flipCard()">
-                <div class="id-front">
-                    <div class="card-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Emblem_of_Mongolia.svg/1200px-Emblem_of_Mongolia.svg.png" class="soyombo">
-                        <div class="header-text">
-                            <p>МОНГОЛ УЛС</p>
-                            <p>ИРГЭНИЙ ҮНЭМЛЭХ</p>
-                        </div>
-                    </div>
-                    
-                    <div class="card-body">
-                        <div class="photo-box">
-                            <img id="id-photo" src="https://via.placeholder.com/100x125?text=Photo">
-                        </div>
-                        <div class="card-info">
-                            <label>Овог:</label>
-                            <div class="val">МОНГОЛ</div>
-                            <label>Нэр:</label>
-                            <div id="display-name" class="val">---</div>
-                            <label>Төрсөн огноо:</label>
-                            <div id="display-date" class="val">0000.00.00</div>
-                        </div>
-                    </div>
-                </div>
+function updateID() {
+    // Fields
+    const fname = document.getElementById('fname-input').value;
+    const sname = document.getElementById('sname-input').value;
+    const gname = document.getElementById('name-input').value;
+    const sex = document.getElementById('sex-input').value;
+    const bday = document.getElementById('date-input').value;
+    const idnum = document.getElementById('id-num-input').value;
+    const issue = document.getElementById('issue-input').value;
+    const expiry = document.getElementById('expiry-input').value;
+    const imgInput = document.getElementById('image-input');
 
-                <div class="id-back">
-                    <div class="mag-strip"></div>
-                    <div class="barcode-section">
-                        <div class="barcode"></div>
-                        <p class="reg-num">РД: AA00112233</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    // Text Updates
+    if(fname) document.getElementById('display-fname').innerText = fname.toUpperCase();
+    if(sname) document.getElementById('display-sname').innerText = sname;
+    if(gname) document.getElementById('display-name').innerText = gname.toUpperCase();
+    if(sex) document.getElementById('display-sex').innerText = sex;
+    if(idnum) document.getElementById('display-id-num').innerText = idnum;
+    
+    // Date Formatter (Changes 2024-01-01 to 2024-01-01 00:00 for realism)
+    if(bday) document.getElementById('display-date').innerText = bday;
+    if(issue) document.getElementById('display-issue').innerText = issue.replace(/-/g, '/');
+    if(expiry) document.getElementById('display-expiry').innerText = expiry.replace(/-/g, '/');
 
-        <div id="editor-panel" class="editor-panel hidden">
-            <h3>Засварлах (Edit Info)</h3>
-            <input type="file" id="image-input" accept="image/*">
-            <input type="text" id="name-input" placeholder="Нэр (Name)">
-            <input type="date" id="date-input">
-            <button class="save-btn" onclick="updateID()">Хадгалах (Save)</button>
-        </div>
-    </div>
+    // Image Update
+    if (imgInput.files && imgInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) { document.getElementById('id-photo').src = e.target.result; };
+        reader.readAsDataURL(imgInput.files[0]);
+    }
 
-    <script src="script.js"></script>
-</body>
-</html>
+    toggleEditor();
+    alert("Мэдээлэл шинэчлэгдлээ!");
+}
