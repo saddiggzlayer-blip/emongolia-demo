@@ -3,31 +3,34 @@ function flipCard() {
     document.getElementById('card').classList.toggle('flipped');
 }
 
-// Function to update details and picture
+// Function to show/hide the editor panel
+function toggleEditor() {
+    const panel = document.getElementById('editor-panel');
+    panel.classList.toggle('hidden');
+}
+
+// Function to update the ID
 function updateID() {
     const name = document.getElementById('name-input').value;
     const bday = document.getElementById('date-input').value;
-    const imageInput = document.getElementById('image-input');
+    const imgInput = document.getElementById('image-input');
 
-    // Update Text
-    if (name) {
-        document.getElementById('display-name').innerText = name.toUpperCase();
-    }
+    if (name) document.getElementById('display-name').innerText = name.toUpperCase();
     
     if (bday) {
-        // Format the date to look like e-Mongolia (YYYY.MM.DD)
         const formattedDate = bday.replace(/-/g, '.');
         document.getElementById('display-date').innerText = formattedDate;
     }
 
-    // Update Photo
-    if (imageInput.files && imageInput.files[0]) {
+    if (imgInput.files && imgInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
             document.getElementById('id-photo').src = e.target.result;
         };
-        reader.readAsDataURL(imageInput.files[0]);
+        reader.readAsDataURL(imgInput.files[0]);
     }
 
-    alert("Identity Card Updated!");
+    // THIS COMMAND HIDES THE EDITOR AFTER SAVING
+    toggleEditor();
+    alert("Амжилттай хадгалагдлаа! (Saved!)");
 }

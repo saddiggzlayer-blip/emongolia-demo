@@ -1,83 +1,92 @@
-:root {
-    --primary-blue: #0052D4;
-    --secondary-blue: #6FB1FC;
+body {
+    background-color: #0047AB; /* Official e-Mongolia Blue */
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: white;
 }
 
-body {
-    background-color: #eef2f7;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.app-header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
 }
 
-.container { width: 100%; max-width: 400px; text-align: center; }
+.app-header h1 { font-size: 18px; margin: 0; }
+.settings-icon { font-size: 24px; cursor: pointer; }
 
-/* 3D EFFECT SETUP */
-.id-card-canvas {
+/* THE ID CARD DESIGN */
+.card-scene {
     perspective: 1000px;
-    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .id-card {
-    width: 350px;
-    height: 220px;
+    width: 340px;
+    height: 210px;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.6s;
     cursor: pointer;
 }
 
 .id-card.flipped { transform: rotateY(180deg); }
 
-/* FRONT AND BACK SHARED STYLES */
 .id-front, .id-back {
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 16px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    padding: 15px;
+    box-sizing: border-box;
 }
 
-/* FRONT DESIGN */
 .id-front {
-    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-    color: white;
-    padding: 20px;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-.header { font-size: 12px; font-weight: bold; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-.logo-circle { width: 20px; height: 20px; background: white; border-radius: 50%; opacity: 0.8; }
-
-.content { display: flex; gap: 15px; text-align: left; }
-#id-photo { width: 90px; height: 110px; border: 2px solid rgba(255,255,255,0.5); border-radius: 8px; object-fit: cover; }
-
-.details label { font-size: 9px; opacity: 0.8; display: block; margin-top: 5px; }
-.value { font-size: 16px; font-weight: bold; margin-bottom: 8px; }
-
-.footer { position: absolute; bottom: 15px; right: 20px; font-size: 10px; opacity: 0.6; }
-
-/* BACK DESIGN */
-.id-back {
-    background: #ffffff;
+    background: #eef2f3;
     color: #333;
-    transform: rotateY(180deg);
-    padding: 20px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
 }
 
-.mag-strip { background: #333; height: 40px; width: 100%; position: absolute; top: 20px; left: 0; }
-.barcode-area { margin-top: 60px; }
-.barcode { background: repeating-linear-gradient(90deg, #333 0, #333 2px, transparent 2px, transparent 4px); height: 50px; width: 80%; margin: 10px auto; }
-.disclaimer { font-size: 10px; color: #777; margin-top: 20px; }
+.card-header { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+.soyombo { width: 30px; }
+.header-text p { margin: 0; font-size: 10px; font-weight: bold; color: #0047AB; }
 
-/* CONTROLS */
-.controls { background: white; padding: 20px; border-radius: 12px; border: 1px solid #ddd; text-align: left; }
-.input-group { margin-bottom: 12px; }
-.input-group label { display: block; font-size: 12px; margin-bottom: 5px; color: #555; }
-.input-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-.update-btn { width: 100%; padding: 12px; background: var(--primary-blue); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+.card-body { display: flex; gap: 15px; margin-top: 10px; }
+#id-photo { width: 90px; height: 115px; border-radius: 4px; object-fit: cover; background: #ddd; }
+
+.card-info label { font-size: 9px; color: #777; display: block; }
+.val { font-size: 14px; font-weight: bold; margin-bottom: 5px; }
+
+.id-back {
+    background: #ddd;
+    transform: rotateY(180deg);
+}
+
+.mag-strip { background: #222; height: 35px; width: 100%; position: absolute; top: 20px; left: 0; }
+.barcode { background: repeating-linear-gradient(90deg, #000 0 2px, transparent 2px 4px); height: 40px; margin-top: 70px; }
+
+/* EDITOR PANEL */
+.editor-panel {
+    background: white;
+    color: #333;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hidden { display: none; }
+
+.save-btn {
+    background: #0047AB;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+}

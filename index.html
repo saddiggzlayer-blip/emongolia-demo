@@ -3,63 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital ID Portal</title>
+    <title>e-Mongolia Digital ID</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>Digital ID Wallet</h1>
-        
-        <div class="id-card-canvas">
+    <div class="app-container">
+        <div class="app-header">
+            <span class="back-arrow">‹</span>
+            <h1>Иргэний үнэмлэх</h1>
+            <span class="settings-icon" onclick="toggleEditor()">⚙️</span>
+        </div>
+
+        <div class="card-scene">
             <div class="id-card" id="card" onclick="flipCard()">
-                
                 <div class="id-front">
-                    <div class="header">
-                        <div class="logo-circle"></div>
-                        <span>DIGITAL IDENTITY</span>
-                    </div>
-                    
-                    <div class="content">
-                        <img id="id-photo" src="https://via.placeholder.com/100x120?text=Upload+Photo" alt="Profile">
-                        <div class="details">
-                            <label>FULL NAME</label>
-                            <div id="display-name" class="value">---</div>
-                            
-                            <label>DATE OF BIRTH</label>
-                            <div id="display-date" class="value">0000.00.00</div>
+                    <div class="card-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Emblem_of_Mongolia.svg/1200px-Emblem_of_Mongolia.svg.png" class="soyombo">
+                        <div class="header-text">
+                            <p>МОНГОЛ УЛС</p>
+                            <p>ИРГЭНИЙ ҮНЭМЛЭХ</p>
                         </div>
                     </div>
-                    <div class="footer">E-GOVERNMENT VERIFIED</div>
+                    
+                    <div class="card-body">
+                        <div class="photo-box">
+                            <img id="id-photo" src="https://via.placeholder.com/100x125?text=Photo">
+                        </div>
+                        <div class="card-info">
+                            <label>Овог:</label>
+                            <div class="val">МОНГОЛ</div>
+                            <label>Нэр:</label>
+                            <div id="display-name" class="val">---</div>
+                            <label>Төрсөн огноо:</label>
+                            <div id="display-date" class="val">0000.00.00</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="id-back">
                     <div class="mag-strip"></div>
-                    <div class="barcode-area">
+                    <div class="barcode-section">
                         <div class="barcode"></div>
-                        <p>ID NUMBER: 8829-X01-99</p>
+                        <p class="reg-num">РД: AA00112233</p>
                     </div>
-                    <p class="disclaimer">This is a digital representation of a citizen identity card. Tap to flip back.</p>
                 </div>
-                
             </div>
         </div>
 
-        <div class="controls">
-            <h3>Update Identity Info</h3>
-            <div class="input-group">
-                <label>Profile Picture:</label>
-                <input type="file" id="image-input" accept="image/*">
-            </div>
-            <div class="input-group">
-                <label>Name:</label>
-                <input type="text" id="name-input" placeholder="Enter your name">
-            </div>
-            <div class="input-group">
-                <label>Birthday:</label>
-                <input type="date" id="date-input">
-            </div>
-            <button class="update-btn" onclick="updateID()">Save Changes</button>
+        <div id="editor-panel" class="editor-panel hidden">
+            <h3>Засварлах (Edit Info)</h3>
+            <input type="file" id="image-input" accept="image/*">
+            <input type="text" id="name-input" placeholder="Нэр (Name)">
+            <input type="date" id="date-input">
+            <button class="save-btn" onclick="updateID()">Хадгалах (Save)</button>
         </div>
     </div>
 
