@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>e-Mongolia ID Wallet</title>
+    <title>e-Mongolia ID</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,6 +19,7 @@
             <div class="id-card" id="card" onclick="flipCard()">
                 
                 <div class="id-front">
+                    <div class="security-pattern"></div>
                     <div class="card-header">
                         <div class="flag"></div>
                         <div class="header-titles">
@@ -28,52 +29,59 @@
                     </div>
                     
                     <div class="card-body">
-                        <img id="id-photo" src="https://via.placeholder.com/100x125?text=Photo" alt="ID Photo">
+                        <div class="photo-container">
+                            <img id="id-photo" src="https://via.placeholder.com/100x125?text=Photo">
+                        </div>
                         <div class="info-grid">
-                            <label>Овог <small>Family name</small></label>
+                            <label>Овог / Family name</label>
                             <div id="display-fname" class="val">---</div>
                             
-                            <label>Эцэг/ эх /-ийн нэр <small>Surname</small></label>
+                            <label>Эцэг/эх нэр / Surname</label>
                             <div id="display-sname" class="val">---</div>
                             
-                            <label>Нэр <small>Given name</small></label>
+                            <label>Нэр / Given name</label>
                             <div id="display-name" class="val">---</div>
                             
                             <div class="row">
                                 <div class="col">
-                                    <label>Хүйс <small>Sex</small></label>
+                                    <label>Хүйс / Sex</label>
                                     <div id="display-sex" class="val">---</div>
                                 </div>
                                 <div class="col">
-                                    <label>Төрсөн он, сар, өдөр <small>Date of birth</small></label>
-                                    <div id="display-date" class="val">0000-00-00</div>
+                                    <label>Төрсөн / Birth</label>
+                                    <div id="display-date" class="val">0000.00.00</div>
                                 </div>
                             </div>
-
-                            <label>Иргэний бүртгэлийн дугаар <small>Civil ID number</small></label>
-                            <div id="display-id-num" class="val">000000000000</div>
+                            <label>Регистрийн дугаар / Reg Number</label>
+                            <div id="display-id-num" class="val" style="color:#d32f2f;">AA00000000</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="id-back">
+                    <div class="security-pattern"></div>
                     <div class="back-header">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Emblem_of_Mongolia.svg/1200px-Emblem_of_Mongolia.svg.png" class="back-logo">
                         <div class="back-header-text">
-                            <p>Олгосон байгууллага <small>Issuing authority</small></p>
-                            <p class="blue-bold">Улсын Бүртгэлийн Ерөнхий Газар</p>
+                            <p>Олгосон байгууллага / Issuing authority</p>
+                            <p class="blue-bold">УЛСЫН БҮРТГЭЛИЙН ЕРӨНХИЙ ГАЗАР</p>
                         </div>
                     </div>
                     
                     <div class="back-content">
-                        <div class="chip-gold"></div>
-                        <div class="dates">
-                            <label>Олгосон он <small>Date of issue</small></label>
-                            <div id="display-issue" class="val">0000/00/00</div>
-                            <label>Хүчинтэй хугацаа <small>Date of expiry</small></label>
-                            <div id="display-expiry" class="val">0000/00/00</div>
+                        <div class="chip-gold">
+                            <div class="chip-line"></div><div class="chip-line"></div>
                         </div>
-                        <div class="qr-code"></div>
+                        <div class="dates-section">
+                            <label>Олгосон / Issued</label>
+                            <div id="display-issue" class="val">2022/08/15</div>
+                            <label>Хүчинтэй / Expiry</label>
+                            <div id="display-expiry" class="val">2031/06/28</div>
+                        </div>
+                        <div class="qr-container">
+                            <div class="qr-code"></div>
+                            <p class="mng-code">MNG</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -85,31 +93,22 @@
         </div>
 
         <div id="editor-panel" class="editor-panel hidden">
-            <h3>Засварлах (Edit)</h3>
+            <h3>Засварлах</h3>
             <div class="scroll-box">
-                <label>Зураг (Photo):</label>
                 <input type="file" id="image-input" accept="image/*">
-                
-                <input type="text" id="fname-input" placeholder="Овог (Family Name)">
-                <input type="text" id="sname-input" placeholder="Эцэг/эх нэр (Surname)">
-                <input type="text" id="name-input" placeholder="Нэр (Given Name)">
-                <input type="text" id="sex-input" placeholder="Хүйс (Male/Female)">
-                
-                <label>Төрсөн өдөр (Birthday):</label>
+                <input type="text" id="fname-input" placeholder="Овог">
+                <input type="text" id="sname-input" placeholder="Эцэг/эх нэр">
+                <input type="text" id="name-input" placeholder="Нэр">
+                <input type="text" id="sex-input" placeholder="Хүйс (Эм/Эр)">
                 <input type="date" id="date-input">
-                
-                <input type="text" id="id-num-input" placeholder="Иргэний дугаар (12 оронтой)">
-                
-                <label>Олгосон өдөр (Issue Date):</label>
+                <input type="text" id="id-num-input" placeholder="Регистрийн дугаар">
                 <input type="date" id="issue-input">
-                
-                <label>Дуусах хугацаа (Expiry Date):</label>
                 <input type="date" id="expiry-input">
             </div>
-            <button class="save-btn" onclick="updateID()">Мэдээлэл шинэчлэх</button>
+            <button class="save-btn" onclick="updateID()">Хадгалах</button>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-</html> 
+</html>
