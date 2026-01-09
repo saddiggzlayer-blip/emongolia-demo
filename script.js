@@ -1,36 +1,33 @@
-// Function to handle the Image Upload
-document.getElementById('upload-btn').onchange = function(event) {
-    const reader = new FileReader();
-    reader.onload = function() {
-        const dataURL = reader.result;
-        document.getElementById('id-photo').src = dataURL;
-        // This saves the picture to the browser!
-        localStorage.setItem('saved-photo', dataURL);
-    };
-    reader.readAsDataURL(event.target.files[0]);
-};
-
-// Function to save Name and Birthday
-function saveToMemory() {
-    const name = document.getElementById('user-name').value;
-    const bday = document.getElementById('user-birthday').value;
-
-    // Save to browser storage
-    localStorage.setItem('user-name', name);
-    localStorage.setItem('user-birthday', bday);
-
-    // Update the screen instantly
-    document.getElementById('display-name').innerText = name;
-    document.getElementById('display-date').innerText = bday;
-    
-    alert("Data saved successfully!");
+// Function to flip the card
+function flipCard() {
+    document.getElementById('card').classList.toggle('flipped');
 }
 
-// THIS PART IS KEY: It loads your data when you open the site
-window.onload = function() {
-    if(localStorage.getItem('user-name')) {
-        document.getElementById('display-name').innerText = localStorage.getItem('user-name');
-        document.getElementById('display-date').innerText = localStorage.getItem('user-birthday');
-        document.getElementById('id-photo').src = localStorage.getItem('saved-photo');
+// Function to update details and picture
+function updateID() {
+    const name = document.getElementById('name-input').value;
+    const bday = document.getElementById('date-input').value;
+    const imageInput = document.getElementById('image-input');
+
+    // Update Text
+    if (name) {
+        document.getElementById('display-name').innerText = name.toUpperCase();
     }
+    
+    if (bday) {
+        // Format the date to look like e-Mongolia (YYYY.MM.DD)
+        const formattedDate = bday.replace(/-/g, '.');
+        document.getElementById('display-date').innerText = formattedDate;
+    }
+
+    // Update Photo
+    if (imageInput.files && imageInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('id-photo').src = e.target.result;
+        };
+        reader.readAsDataURL(imageInput.files[0]);
+    }
+
+    alert("Identity Card Updated!");
 }

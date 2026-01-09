@@ -1,89 +1,68 @@
 <!DOCTYPE html>
-<html lang="mn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>e-Mongolia Demo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f3f4f6;
-    }
-    header {
-      background: #1d4ed8;
-      color: white;
-      padding: 16px;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 20px;
-    }
-    header p {
-      margin: 4px 0 0;
-      font-size: 12px;
-      opacity: 0.8;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      padding: 16px;
-    }
-    .card {
-      background: white;
-      padding: 16px;
-      border-radius: 14px;
-      text-align: center;
-      font-weight: 600;
-      color: #1d4ed8;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
-    footer {
-      text-align: center;
-      font-size: 12px;
-      color: #6b7280;
-      padding: 16px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital ID Portal</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <h1>e-Mongolia</h1>
-  <p>Demo / Prototype version</p>
-</header>
+    <div class="container">
+        <h1>Digital ID Wallet</h1>
+        
+        <div class="id-card-canvas">
+            <div class="id-card" id="card" onclick="flipCard()">
+                
+                <div class="id-front">
+                    <div class="header">
+                        <div class="logo-circle"></div>
+                        <span>DIGITAL IDENTITY</span>
+                    </div>
+                    
+                    <div class="content">
+                        <img id="id-photo" src="https://via.placeholder.com/100x120?text=Upload+Photo" alt="Profile">
+                        <div class="details">
+                            <label>FULL NAME</label>
+                            <div id="display-name" class="value">---</div>
+                            
+                            <label>DATE OF BIRTH</label>
+                            <div id="display-date" class="value">0000.00.00</div>
+                        </div>
+                    </div>
+                    <div class="footer">E-GOVERNMENT VERIFIED</div>
+                </div>
 
-<section class="grid">
-  <div class="card">Иргэний үнэмлэх</div>
-  <div class="card">Татвар</div>
-  <div class="card">Эрүүл мэнд</div>
-  <div class="card">Нийгмийн даатгал</div>
-  <div class="card">Төрсний бүртгэл</div>
-  <div class="card">Газрын мэдээлэл</div>
-</section>
+                <div class="id-back">
+                    <div class="mag-strip"></div>
+                    <div class="barcode-area">
+                        <div class="barcode"></div>
+                        <p>ID NUMBER: 8829-X01-99</p>
+                    </div>
+                    <p class="disclaimer">This is a digital representation of a citizen identity card. Tap to flip back.</p>
+                </div>
+                
+            </div>
+        </div>
 
-<footer>
-  ⚠️ This is a demo website. Not an official government service.
-</footer>
+        <div class="controls">
+            <h3>Update Identity Info</h3>
+            <div class="input-group">
+                <label>Profile Picture:</label>
+                <input type="file" id="image-input" accept="image/*">
+            </div>
+            <div class="input-group">
+                <label>Name:</label>
+                <input type="text" id="name-input" placeholder="Enter your name">
+            </div>
+            <div class="input-group">
+                <label>Birthday:</label>
+                <input type="date" id="date-input">
+            </div>
+            <button class="update-btn" onclick="updateID()">Save Changes</button>
+        </div>
+    </div>
 
+    <script src="script.js"></script>
 </body>
 </html>
-<div class="emongolia-card">
-    <div class="photo-section">
-        <img id="id-photo" src="https://via.placeholder.com/150" alt="ID Photo">
-        <input type="file" id="upload-btn" hidden>
-        <button onclick="document.getElementById('upload-btn').click()">Upload ID Photo</button>
-    </div>
-
-    <div class="info-section">
-        <input type="text" id="user-name" placeholder="Full Name">
-        <input type="date" id="user-birthday">
-        <button class="save-btn" onclick="saveToMemory()">Update Official Info</button>
-    </div>
-
-    <div class="display-panel">
-        <p>Name: <span id="display-name">---</span></p>
-        <p>Birthday: <span id="display-date">---</span></p>
-    </div>
-</div>
