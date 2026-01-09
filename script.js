@@ -3,12 +3,11 @@ function flipCard() {
 }
 
 function toggleEditor() {
-    const panel = document.getElementById('editor-panel');
-    panel.classList.toggle('hidden');
+    document.getElementById('editor-panel').classList.toggle('hidden');
 }
 
 function updateID() {
-    // 1. Get Values
+    // 1. Get input values
     const fname = document.getElementById('fname-input').value;
     const sname = document.getElementById('sname-input').value;
     const gname = document.getElementById('name-input').value;
@@ -19,19 +18,19 @@ function updateID() {
     const expiry = document.getElementById('expiry-input').value;
     const imgInput = document.getElementById('image-input');
 
-    // 2. Update Front
+    // 2. Update Card Data (Use .toUpperCase() for realism)
     if(fname) document.getElementById('display-fname').innerText = fname.toUpperCase();
     if(sname) document.getElementById('display-sname').innerText = sname.toUpperCase();
     if(gname) document.getElementById('display-name').innerText = gname.toUpperCase();
     if(sex) document.getElementById('display-sex').innerText = sex;
     if(idnum) document.getElementById('display-id-num').innerText = idnum.toUpperCase();
+    
+    // Formatting dates
     if(bday) document.getElementById('display-date').innerText = bday.replace(/-/g, '.');
-
-    // 3. Update Back
     if(issue) document.getElementById('display-issue').innerText = issue.replace(/-/g, '/');
     if(expiry) document.getElementById('display-expiry').innerText = expiry.replace(/-/g, '/');
 
-    // 4. Update Photo
+    // 3. Update Profile Picture
     if (imgInput.files && imgInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -40,6 +39,7 @@ function updateID() {
         reader.readAsDataURL(imgInput.files[0]);
     }
 
+    // 4. Save and Close
     toggleEditor();
-    alert("Мэдээлэл шинэчлэгдлээ!");
+    alert("Амжилттай хадгалагдлаа!");
 }
