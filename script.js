@@ -1,36 +1,49 @@
-// Function to flip the card
+// Function to flip the card when clicked
 function flipCard() {
     document.getElementById('card').classList.toggle('flipped');
 }
 
-// Function to show/hide the editor panel
+// Function to open/close the editing menu
 function toggleEditor() {
     const panel = document.getElementById('editor-panel');
     panel.classList.toggle('hidden');
 }
 
-// Function to update the ID
+// Function to process user input and update the card
 function updateID() {
-    const name = document.getElementById('name-input').value;
+    // 1. Get all input values
+    const fname = document.getElementById('fname-input').value;
+    const sname = document.getElementById('sname-input').value;
+    const gname = document.getElementById('name-input').value;
+    const sex = document.getElementById('sex-input').value;
     const bday = document.getElementById('date-input').value;
+    const idnum = document.getElementById('id-num-input').value;
+    const issue = document.getElementById('issue-input').value;
+    const expiry = document.getElementById('expiry-input').value;
     const imgInput = document.getElementById('image-input');
 
-    if (name) document.getElementById('display-name').innerText = name.toUpperCase();
+    // 2. Update Text on Card
+    if(fname) document.getElementById('display-fname').innerText = fname.toUpperCase();
+    if(sname) document.getElementById('display-sname').innerText = sname;
+    if(gname) document.getElementById('display-name').innerText = gname.toUpperCase();
+    if(sex) document.getElementById('display-sex').innerText = sex;
+    if(idnum) document.getElementById('display-id-num').innerText = idnum;
     
-    if (bday) {
-        const formattedDate = bday.replace(/-/g, '.');
-        document.getElementById('display-date').innerText = formattedDate;
-    }
+    // 3. Format and update dates
+    if(bday) document.getElementById('display-date').innerText = bday;
+    if(issue) document.getElementById('display-issue').innerText = issue.replace(/-/g, '/');
+    if(expiry) document.getElementById('display-expiry').innerText = expiry.replace(/-/g, '/');
 
+    // 4. Update Photo
     if (imgInput.files && imgInput.files[0]) {
         const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('id-photo').src = e.target.result;
+        reader.onload = function(e) { 
+            document.getElementById('id-photo').src = e.target.result; 
         };
         reader.readAsDataURL(imgInput.files[0]);
     }
 
-    // THIS COMMAND HIDES THE EDITOR AFTER SAVING
+    // 5. Hide panel and alert success
     toggleEditor();
-    alert("Амжилттай хадгалагдлаа! (Saved!)");
+    alert("Мэдээлэл шинэчлэгдлээ! (Identity Updated)");
 }
