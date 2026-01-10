@@ -7,28 +7,28 @@
     <style>
         :root {
             --em-blue: #0066FF;
+            --btn-gray: #f2f2f7;
             --label-blue: #0044CC;
-            --bg-gray: #f2f4f7;
             --card-white: #fdfaf4;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-gray);
+            font-family: -apple-system, system-ui, sans-serif;
+            background-color: #f8f9fb;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
+            -webkit-user-select: none;
         }
 
-        /* --- CARD STYLES --- */
-        .card-wrapper {
+        /* --- THE CARD (STRICT MOBILE FIX) --- */
+        .card-perspective {
             width: 350px;
             height: 220px;
-            margin-top: 40px;
-            perspective: 1000px;
+            margin-top: 30px;
+            perspective: 1200px;
         }
 
         .card-inner {
@@ -39,122 +39,202 @@
             transform-style: preserve-3d;
         }
 
-        .flipped { transform: rotateY(180deg); }
+        /* This handles the flip without mirroring */
+        .is-flipped { transform: rotateY(180deg); }
 
         .card-front, .card-back {
             position: absolute;
             width: 100%;
             height: 100%;
-            backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
-            background-color: var(--card-white);
+            backface-visibility: hidden;
             border-radius: 12px;
+            background-color: var(--card-white);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             padding: 15px;
             box-sizing: border-box;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             overflow: hidden;
         }
 
-        .card-back { transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+        .card-back { transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: space-around; }
 
-        /* --- DECORATIONS --- */
-        .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 160px; opacity: 0.04; pointer-events: none; }
-        .map-icon { position: absolute; bottom: 10px; right: 10px; width: 80px; opacity: 0.08; }
-        .vert-text { position: absolute; right: 12px; top: 40px; writing-mode: vertical-lr; font-size: 15px; color: rgba(0,0,0,0.08); font-weight: bold; letter-spacing: 3px; }
+        /* --- GRAPHICS --- */
+        .watermark-soyombo { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 160px; opacity: 0.05; z-index: 0; }
+        .map-bg { position: absolute; bottom: 10px; right: 10px; width: 85px; opacity: 0.1; z-index: 0; }
+        .vert-script { position: absolute; right: 12px; top: 40px; writing-mode: vertical-lr; font-size: 16px; color: rgba(0,0,0,0.08); font-weight: bold; letter-spacing: 3px; }
 
-        /* --- CONTENT --- */
-        .header { display: flex; align-items: center; gap: 8px; border-bottom: 0.5px solid rgba(0,0,0,0.1); padding-bottom: 5px; }
-        .header-text { font-size: 8px; font-weight: 800; line-height: 1.2; color: #333; }
+        /* --- FRONT CONTENT --- */
+        .header { display: flex; align-items: center; gap: 8px; border-bottom: 0.5px solid #eee; padding-bottom: 5px; position: relative; z-index: 1; }
+        .header-txt { font-size: 8px; font-weight: 800; line-height: 1.2; }
         
-        .body-layout { display: flex; gap: 12px; margin-top: 10px; position: relative; z-index: 5; }
-        .photo { width: 95px; height: 125px; background: #e0e0e0; border-radius: 4px; background-size: cover; background-position: center; border: 0.5px solid #ccc; }
+        .body-row { display: flex; gap: 12px; margin-top: 10px; position: relative; z-index: 1; }
+        .photo-box { width: 95px; height: 125px; background-color: #eee; border-radius: 4px; background-size: cover; background-position: center; border: 0.5px solid #ddd; }
         
-        .info-grid { flex: 1; display: flex; flex-direction: column; gap: 3px; }
-        .label { color: var(--label-blue); font-size: 6.5px; font-weight: 700; text-transform: uppercase; }
-        .label span { font-weight: 400; font-size: 5.5px; color: #666; }
-        .val { color: #1a1a1a; font-size: 9.5px; font-weight: 700; text-transform: uppercase; }
+        .info-stack { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .label { color: var(--label-blue); font-size: 6.5px; font-weight: 700; }
+        .label span { font-weight: 400; font-size: 6px; color: #777; }
+        .value { color: #1a1a1a; font-size: 9.5px; font-weight: 700; text-transform: uppercase; }
         
-        /* REG NUMBER STYLING */
-        .reg-num { color: #000 !important; font-size: 12px; font-weight: 900; margin-top: 2px; border-top: 0.5px solid #eee; padding-top: 2px; }
+        /* CIVIL ID - EXACT SPACING */
+        .civil-id { color: #000 !important; font-size: 12.5px; font-weight: 900; margin-top: 4px; padding-top: 4px; border-top: 0.5px solid #eee; }
 
-        /* --- BUTTONS --- */
-        .nav-container { display: flex; gap: 10px; margin-top: 30px; width: 350px; }
-        .nav-btn { flex: 1; background: white; padding: 15px 5px; border-radius: 10px; text-align: center; border: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; }
-        .nav-btn span { display: block; font-size: 11px; font-weight: 600; color: #333; }
-        .nav-btn .icon { font-size: 18px; margin-bottom: 5px; color: var(--em-blue); }
-
-        /* --- HIDDEN SETTINGS --- */
-        .settings-trigger { margin-top: 50px; font-size: 10px; color: #ccc; background: none; border: none; }
-        #settingsPanel { 
-            position: fixed; bottom: 0; left: 0; right: 0; background: white; 
-            padding: 20px; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-            transform: translateY(100%); transition: transform 0.3s ease; z-index: 100;
+        /* --- OFFICIAL BUTTONS (FIXED LOOK) --- */
+        .action-row { display: flex; gap: 12px; width: 350px; margin-top: 25px; }
+        .action-btn { 
+            flex: 1; background: white; border: none; border-radius: 12px; padding: 18px 10px;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04); cursor: pointer;
         }
-        #settingsPanel.active { transform: translateY(0); }
-        .close-btn { width: 40px; height: 5px; background: #ddd; border-radius: 10px; margin: 0 auto 20px; }
+        .action-btn img { width: 24px; height: 24px; opacity: 0.8; }
+        .action-btn span { font-size: 12px; font-weight: 600; color: #333; }
 
-        input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #eee; border-radius: 8px; background: #f9f9f9; }
-        .save-btn { width: 100%; padding: 15px; background: var(--em-blue); color: white; border: none; border-radius: 8px; font-weight: bold; margin-top: 10px; }
+        /* --- SETTINGS PANEL --- */
+        #settingsOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: none; z-index: 999;
+        }
+        #settingsBox {
+            position: absolute; bottom: 0; width: 100%; background: white;
+            border-radius: 20px 20px 0 0; padding: 25px; box-sizing: border-box;
+        }
+        .settings-btn { margin-top: 50px; opacity: 0.3; font-size: 10px; border: none; background: none; width: 100%; }
+        
+        input, select { width: 100%; padding: 12px; margin: 6px 0; border: 1px solid #eee; border-radius: 8px; background: #fafafa; font-size: 14px; }
+        .save-btn { width: 100%; padding: 16px; background: var(--em-blue); color: white; border: none; border-radius: 10px; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="card-wrapper" onclick="toggleFlip()">
-        <div class="card-inner" id="cardObj">
+    <div class="card-perspective" onclick="flipCard()">
+        <div class="card-inner" id="cardContainer">
             
             <div class="card-front">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Soyombo_symbol.svg" class="watermark">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Map_of_Mongolia.svg" class="map-icon">
-                <div class="vert-text">ᠮᠣᠩᠭᠣᠯ ᠤᠯᠤᠰ</div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Soyombo_symbol.svg" class="watermark-soyombo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Map_of_Mongolia.svg" class="map-bg">
+                <div class="vert-script">ᠮᠣᠩᠭᠣᠯ ᠤᠯᠤᠰ</div>
                 
                 <div class="header">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Mongolia.svg/2560px-Flag_of_Mongolia.svg.png" width="28">
-                    <div class="header-text">МОНГОЛ УЛСЫН ИРГЭНИЙ ҮНЭМЛЭХ<br>CITIZEN IDENTITY CARD OF MONGOLIA</div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Mongolia.svg/2560px-Flag_of_Mongolia.svg.png" width="30">
+                    <div class="header-txt">МОНГОЛ УЛСЫН ИРГЭНИЙ ҮНЭМЛЭХ<br>CITIZEN IDENTITY CARD OF MONGOLIA</div>
                 </div>
 
-                <div class="body-layout">
-                    <div class="photo" id="outPic"></div>
-                    <div class="info-grid">
-                        <div class="label">Овог <span>/ FAMILY NAME</span></div><div class="val" id="outFam">---</div>
-                        <div class="label">Эцэг/эх-ийн нэр <span>/ SURNAME</span></div><div class="val" id="outSur">---</div>
-                        <div class="label">Нэр <span>/ GIVEN NAME</span></div><div class="val" id="outGiv">---</div>
-                        <div style="display:flex; gap: 15px;">
-                            <div><div class="label">Хүйс <span>/ SEX</span></div><div class="val" id="outSex">---</div></div>
-                            <div><div class="label">Төрсөн огноо <span>/ BIRTH DATE</span></div><div class="val" id="outBir">---</div></div>
+                <div class="body-row">
+                    <div class="photo-box" id="dispPic"></div>
+                    <div class="info-stack">
+                        <div class="label">Овог <span>/ FAMILY NAME</span></div><div class="value" id="dispFam">---</div>
+                        <div class="label">Эцэг/эх-ийн нэр <span>/ SURNAME</span></div><div class="value" id="dispSur">---</div>
+                        <div class="label">Нэр <span>/ GIVEN NAME</span></div><div class="value" id="dispGiv">---</div>
+                        <div style="display:flex; gap: 20px;">
+                            <div><div class="label">Хүйс <span>/ SEX</span></div><div class="value" id="dispSex">---</div></div>
+                            <div><div class="label">Төрсөн огноо <span>/ BIRTH DATE</span></div><div class="value" id="dispBir">---</div></div>
                         </div>
-                        <div class="label">БҮРТГЭЛИЙН ДУГААР</div><div class="val reg-num" id="outReg">000000000000</div>
+                        <div class="label">БҮРТГЭЛИЙН ДУГААР</div><div class="value civil-id" id="dispReg">000000000000</div>
                     </div>
                 </div>
             </div>
 
             <div class="card-back">
-                <div class="header-text" style="font-size: 10px; text-align: center; border-bottom: 1px solid #eee; width: 100%; padding-bottom: 5px;">УЛСЫН БҮРТГЭЛИЙН ЕРӨНХИЙ ГАЗАР</div>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Soyombo_symbol.svg" width="50" style="filter: invert(24%) sepia(91%) saturate(3000%) hue-rotate(210deg);">
+                <div class="header-txt" style="font-size: 10px; text-align: center; border-bottom: 1px solid #eee; width: 100%; padding-bottom: 5px;">УЛСЫН БҮРТГЭЛИЙН ЕРӨНХИЙ ГАЗАР</div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Soyombo_symbol.svg" width="55" style="filter: invert(24%) sepia(91%) saturate(3000%) hue-rotate(210deg);">
                 <div style="display:flex; width: 100%; justify-content: space-around; text-align: center;">
-                    <div><div class="label">Олгосон <span>/ ISSUED</span></div><div class="val" id="outIss">---</div></div>
-                    <div><div class="label">Хүчинтэй <span>/ EXPIRY</span></div><div class="val" id="outExp">---</div></div>
+                    <div><div class="label">Олгосон <span>/ ISSUED</span></div><div class="value" id="dispIss">---</div></div>
+                    <div><div class="label">Хүчинтэй <span>/ EXPIRY</span></div><div class="value" id="dispExp">---</div></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="nav-container">
-        <div class="nav-btn">
-            <div class="icon">📄</div>
+    <div class="action-row">
+        <div class="action-btn">
+            <img src="https://img.icons8.com/ios/50/0066FF/file-content.png" alt="doc">
             <span>Лавлах</span>
         </div>
-        <div class="nav-btn">
-            <div class="icon">🔄</div>
+        <div class="action-btn">
+            <img src="https://img.icons8.com/ios/50/0066FF/refresh.png" alt="refresh">
             <span>Дахин захиалах</span>
         </div>
     </div>
 
-    <button class="settings-trigger" onclick="toggleSettings()">System Settings v5.0</button>
+    <button class="settings-btn" onclick="openSettings()">Advanced Settings v6.0</button>
 
-    <div id="settingsPanel">
-        <div class="close-btn" onclick="toggleSettings()"></div>
-        <h3 style="margin-top:0">Identity Settings</h3>
-        <input type="file" accept="image/*" onchange="loadPhoto(event)">
-        <input type="text" id="inFam" placeholder="Овог">
-        <input type="text" id="inSur" placeholder="Эцэг/эх-ийн нэр">
-        <input type
+    <div id="settingsOverlay" onclick="closeSettings(event)">
+        <div id="settingsBox">
+            <h3 style="margin-top:0">Update Identity Card</h3>
+            <input type="file" accept="image/*" onchange="uploadPic(event)">
+            <input type="text" id="inFam" placeholder="Овог">
+            <input type="text" id="inSur" placeholder="Эцэг/эх-ийн нэр">
+            <input type="text" id="inGiv" placeholder="Нэр">
+            <select id="inSex"><option value="ЭР / MALE">ЭР / MALE</option><option value="ЭМ / FEMALE">ЭМ / FEMALE</option></select>
+            <input type="text" id="inBir" placeholder="Төрсөн огноо (YYYY.MM.DD)">
+            <input type="text" id="inReg" placeholder="Бүртгэлийн дугаар">
+            <input type="text" id="inIss" placeholder="Олгосон огноо">
+            <input type="text" id="inExp" placeholder="Хүчинтэй хугацаа">
+            <button class="save-btn" onclick="saveData()">SAVE CHANGES</button>
+        </div>
+    </div>
+
+    <script>
+        // Flip function (Mobile Fix)
+        function flipCard() {
+            document.getElementById('cardContainer').classList.toggle('is-flipped');
+        }
+
+        // Settings Modal functions
+        function openSettings() { document.getElementById('settingsOverlay').style.display = 'block'; }
+        function closeSettings(e) { if(e.target.id === 'settingsOverlay') e.target.style.display = 'none'; }
+
+        function uploadPic(e) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById('dispPic').style.backgroundImage = `url(${reader.result})`;
+                localStorage.setItem('user_img', reader.result);
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
+        function saveData() {
+            const data = {
+                f: document.getElementById('inFam').value,
+                s: document.getElementById('inSur').value,
+                g: document.getElementById('inGiv').value,
+                sx: document.getElementById('inSex').value,
+                b: document.getElementById('inBir').value,
+                r: document.getElementById('inReg').value,
+                i: document.getElementById('inIss').value,
+                e: document.getElementById('inExp').value
+            };
+            localStorage.setItem('user_data_v6', JSON.stringify(data));
+            updateUI(data);
+            document.getElementById('settingsOverlay').style.display = 'none';
+        }
+
+        function updateUI(d) {
+            document.getElementById('dispFam').innerText = d.f || '---';
+            document.getElementById('dispSur').innerText = d.s || '---';
+            document.getElementById('dispGiv').innerText = d.g || '---';
+            document.getElementById('dispSex').innerText = d.sx || '---';
+            document.getElementById('dispBir').innerText = d.b || '---';
+            document.getElementById('dispReg').innerText = d.r || '000000000000';
+            document.getElementById('dispIss').innerText = d.i || '---';
+            document.getElementById('dispExp').innerText = d.e || '---';
+        }
+
+        window.onload = function() {
+            const d = JSON.parse(localStorage.getItem('user_data_v6'));
+            const img = localStorage.getItem('user_img');
+            if (img) document.getElementById('dispPic').style.backgroundImage = `url(${img})`;
+            if (d) {
+                updateUI(d);
+                document.getElementById('inFam').value = d.f;
+                document.getElementById('inSur').value = d.s;
+                document.getElementById('inGiv').value = d.g;
+                document.getElementById('inSex').value = d.sx;
+                document.getElementById('inBir').value = d.b;
+                document.getElementById('inReg').value = d.r;
+                document.getElementById('inIss').value = d.i;
+                document.getElementById('inExp').value = d.e;
+            }
+        };
+    </script>
+</body>
+</html>
