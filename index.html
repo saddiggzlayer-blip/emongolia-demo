@@ -58,10 +58,11 @@
         /* --- BEIGE SOYOMBO WATERMARK --- */
         .soyombo-watermark {
             position: absolute;
-            top: 20px;
-            right: 40px;
-            width: 120px;
-            opacity: 0.05;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            opacity: 0.04; /* Very subtle like the real one */
             pointer-events: none;
             z-index: 0;
         }
@@ -82,40 +83,40 @@
 
         .card-body {
             display: flex;
-            gap: 12px;
-            margin-top: 10px;
+            gap: 15px;
+            margin-top: 12px;
             z-index: 1;
             position: relative;
         }
 
         .photo-area {
-            width: 95px;
-            height: 120px;
+            width: 100px;
+            height: 130px;
             background: #e0e0e0;
             border: 1px solid #bbb;
             background-size: cover;
             background-position: center;
             border-radius: 4px;
+            flex-shrink: 0;
         }
 
-        .info-area { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+        .info-area { flex: 1; display: flex; flex-direction: column; gap: 4px; }
         .field { display: flex; flex-direction: column; }
-        .label { color: var(--label-blue); font-size: 6.5px; font-weight: bold; }
-        .value { color: var(--text-black); font-size: 9.5px; font-weight: bold; text-transform: uppercase; }
+        .label { color: var(--label-blue); font-size: 7px; font-weight: bold; }
+        .value { color: var(--text-black); font-size: 10px; font-weight: bold; text-transform: uppercase; }
         
-        /* REGISTRATION NUMBER (STAYS BLACK) */
-        .reg-number { color: #000 !important; font-size: 12px; margin-top: 2px; font-weight: 800; }
+        .reg-number { color: #000 !important; font-size: 13px; margin-top: 3px; font-weight: 800; }
 
         /* VERTICAL MONGOLIAN SCRIPT */
         .vertical-script {
             position: absolute;
-            right: 12px;
-            top: 50px;
+            right: 10px;
+            top: 45px;
             writing-mode: vertical-lr;
-            font-size: 14px;
-            color: rgba(0,0,0,0.15);
+            font-size: 16px;
+            color: rgba(0,0,0,0.12);
             font-weight: bold;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
         /* --- BACK CONTENT --- */
@@ -125,14 +126,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 20px;
+            padding: 15px;
         }
 
-        /* DEEP BLUE SOYOMBO ON BACK */
         .soyombo-blue {
             width: 50px;
             height: 70px;
-            background: #003399;
+            background: #003399; /* The Deep Blue Soyombo */
             mask: url('https://upload.wikimedia.org/wikipedia/commons/a/af/Soyombo_symbol.svg') no-repeat center;
             -webkit-mask: url('https://upload.wikimedia.org/wikipedia/commons/a/af/Soyombo_symbol.svg') no-repeat center;
             mask-size: contain;
@@ -149,8 +149,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        .input-group { margin-bottom: 10px; }
-        .input-group label { font-size: 12px; font-weight: bold; color: #555; display: block; margin-bottom: 2px; }
+        .input-group { margin-bottom: 8px; }
         input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
         button { width: 100%; padding: 15px; background: var(--emongolia-blue); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; }
     </style>
@@ -174,4 +173,96 @@
                     <div class="info-area">
                         <div class="field"><span class="label">Овог / Family name</span><span class="value" id="displayFamily">---</span></div>
                         <div class="field"><span class="label">Эцэг/эх-ийн нэр / Surname</span><span class="value" id="displaySurname">---</span></div>
-                        <div class="field"><span
+                        <div class="field"><span class="label">Нэр / Given name</span><span class="value" id="displayGiven">---</span></div>
+                        <div class="field"><span class="label">Төрсөн огноо / Date of birth</span><span class="value" id="displayBirth">---</span></div>
+                        <div class="field"><span class="label">Регистрийн дугаар / Civil ID</span><span class="value reg-number" id="displayReg">000000000000</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-back">
+                <div class="header-text" style="font-size: 10px; text-align: center; width: 100%; border-bottom: 1px solid #eee; padding-bottom: 5px;">УЛСЫН БҮРТГЭЛИЙН ЕРӨНХИЙ ГАЗАР</div>
+                
+                <div class="soyombo-blue"></div>
+                
+                <div style="width: 100%; display: flex; justify-content: space-around; text-align: center;">
+                    <div><span class="label">Олгосон / Issued</span><br><span class="value" id="displayIssue">---</span></div>
+                    <div><span class="label">Хүчинтэй / Expiry</span><br><span class="value" id="displayExpiry">---</span></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="input-form">
+        <h3 style="margin: 0 0 15px 0; color: var(--emongolia-blue);">Update Information</h3>
+        
+        <input type="file" accept="image/*" onchange="previewFile()" style="margin-bottom: 10px;">
+        <input type="text" id="inFamily" placeholder="Овог">
+        <input type="text" id="inSurname" placeholder="Эцэг/эх-ийн нэр">
+        <input type="text" id="inGiven" placeholder="Нэр">
+        <input type="text" id="inBirth" placeholder="Төрсөн огноо (YYYY.MM.DD)">
+        <input type="text" id="inReg" placeholder="Регистрийн дугаар">
+        <input type="text" id="inIssue" placeholder="Олгосон огноо">
+        <input type="text" id="inExpiry" placeholder="Хүчинтэй хугацаа">
+        
+        <button onclick="saveData()">Save All Changes</button>
+    </div>
+
+    <script>
+        function previewFile() {
+            const preview = document.getElementById('displayPhoto');
+            const file = document.querySelector('input[type=file]').files[0];
+            const reader = new FileReader();
+            reader.onloadend = function () {
+                preview.style.backgroundImage = `url(${reader.result})`;
+                localStorage.setItem('user_photo', reader.result);
+            }
+            if (file) reader.readAsDataURL(file);
+        }
+
+        window.onload = function() {
+            const saved = localStorage.getItem('user_data_final');
+            const savedPhoto = localStorage.getItem('user_photo');
+            
+            if (savedPhoto) document.getElementById('displayPhoto').style.backgroundImage = `url(${savedPhoto})`;
+            if (saved) {
+                const data = JSON.parse(saved);
+                updateUI(data);
+                document.getElementById('inFamily').value = data.family || '';
+                document.getElementById('inSurname').value = data.surname || '';
+                document.getElementById('inGiven').value = data.given || '';
+                document.getElementById('inBirth').value = data.birth || '';
+                document.getElementById('inReg').value = data.reg || '';
+                document.getElementById('inIssue').value = data.issue || '';
+                document.getElementById('inExpiry').value = data.expiry || '';
+            }
+        };
+
+        function saveData() {
+            const data = {
+                family: document.getElementById('inFamily').value,
+                surname: document.getElementById('inSurname').value,
+                given: document.getElementById('inGiven').value,
+                birth: document.getElementById('inBirth').value,
+                reg: document.getElementById('inReg').value,
+                issue: document.getElementById('inIssue').value,
+                expiry: document.getElementById('inExpiry').value
+            };
+            localStorage.setItem('user_data_final', JSON.stringify(data));
+            updateUI(data);
+            alert("Success! Information will not disappear.");
+        }
+
+        function updateUI(data) {
+            document.getElementById('displayFamily').innerText = data.family || '---';
+            document.getElementById('displaySurname').innerText = data.surname || '---';
+            document.getElementById('displayGiven').innerText = data.given || '---';
+            document.getElementById('displayBirth').innerText = data.birth || '---';
+            document.getElementById('displayReg').innerText = data.reg || '000000000000';
+            document.getElementById('displayIssue').innerText = data.issue || '---';
+            document.getElementById('displayExpiry').innerText = data.expiry || '---';
+        }
+    </script>
+</body>
+</html>
