@@ -9,36 +9,36 @@
             --emongolia-blue: #0066FF;
             --label-blue: #0044CC;
             --text-black: #1a1a1a;
-            --card-bg: #fdf5e6; /* Cream/Beige like the real card */
+            --card-bg: #fdfaf4; 
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #f4f7f9;
+            background-color: #f2f4f7;
+            margin: 0;
             padding: 20px;
         }
 
-        /* --- CARD STYLING --- */
+        /* --- THE CARD CONTAINER --- */
         .card-container {
             perspective: 1000px;
-            width: 350px;
-            height: 220px;
+            width: 360px;
+            height: 225px;
+            margin: 20px 0;
             cursor: pointer;
-            margin-bottom: 30px;
         }
 
         .card-inner {
             position: relative;
             width: 100%;
             height: 100%;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.6s;
             transform-style: preserve-3d;
         }
 
-        /* Flip logic */
         .card-container.flipped .card-inner {
             transform: rotateY(180deg);
         }
@@ -47,84 +47,128 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            backface-visibility: hidden; /* FIX: Prevents mirror effect */
+            backface-visibility: hidden;
             background-color: var(--card-bg);
             border-radius: 12px;
             padding: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
             border: 1px solid #dcdcdc;
-            overflow: hidden;
+            box-sizing: border-box;
         }
 
         .card-back {
-            transform: rotateY(180deg); /* PRE-ROTATED BACK */
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
-        /* --- FRONT CONTENT --- */
+        /* --- HEADER & FLAG --- */
         .header {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 10px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            padding-bottom: 8px;
         }
 
-        .flag { width: 30px; height: 15px; }
-        .header-text { font-size: 8px; font-weight: bold; line-height: 1.2; }
+        .flag-img {
+            width: 32px;
+            height: auto;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
 
-        .body-layout { display: flex; gap: 15px; margin-top: 10px; }
-        .photo-box {
-            width: 90px;
-            height: 115px;
-            background: #eee;
+        .header-text {
+            font-size: 8.5px;
+            font-weight: 900;
+            color: #222;
+            line-height: 1.2;
+        }
+
+        /* --- BODY LAYOUT (FIXED SIDE-BY-SIDE) --- */
+        .card-body {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .photo-area {
+            width: 100px;
+            height: 125px;
+            background-color: #e8e8e8;
             border: 1px solid #ccc;
             background-size: cover;
             background-position: center;
+            border-radius: 4px;
         }
 
-        .info-fields { flex: 1; }
-        .field { margin-bottom: 6px; line-height: 1.1; }
-        .label { color: var(--label-blue); font-size: 8px; font-weight: bold; display: block; }
-        .value { color: var(--text-black); font-size: 11px; font-weight: bold; text-transform: uppercase; }
+        .info-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-        /* REG NUMBER COLOR FIX */
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .label {
+            color: var(--label-blue);
+            font-size: 7px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .value {
+            color: var(--text-black);
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* REGISTRATION NUMBER (BLACK FIX) */
         .reg-number {
-            color: #000 !important; 
+            color: #000000 !important;
             font-size: 13px;
-            letter-spacing: 1px;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
         }
 
         /* --- INPUT FORM --- */
         .input-form {
             background: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            width: 350px;
+            border-radius: 12px;
+            width: 340px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         input {
             width: 100%;
-            padding: 10px;
-            margin: 5px 0 15px 0;
+            padding: 12px;
+            margin: 8px 0;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 6px;
             box-sizing: border-box;
         }
 
         button {
             width: 100%;
-            padding: 12px;
+            padding: 15px;
             background: var(--emongolia-blue);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
+            margin-top: 10px;
         }
-
-        button:hover { background: #0052cc; }
     </style>
 </head>
 <body>
@@ -134,14 +178,17 @@
             
             <div class="card-front">
                 <div class="header">
-                    <div style="background: red; width: 10px; height: 15px;"></div> <div class="header-text">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Mongolia.svg/2560px-Flag_of_Mongolia.svg.png" class="flag-img">
+                    <div class="header-text">
                         МОНГОЛ УЛСЫН ИРГЭНИЙ ҮНЭМЛЭХ<br>
                         CITIZEN IDENTITY CARD OF MONGOLIA
                     </div>
                 </div>
-                <div class="body-layout">
-                    <div class="photo-box" id="displayPhoto"></div>
-                    <div class="info-fields">
+
+                <div class="card-body">
+                    <div class="photo-area" id="displayPhoto"></div>
+                    
+                    <div class="info-area">
                         <div class="field">
                             <span class="label">Овог / Family name</span>
                             <span class="value" id="displayFamilyName">---</span>
@@ -155,7 +202,7 @@
                             <span class="value" id="displayGivenName">---</span>
                         </div>
                         <div class="field">
-                            <span class="label">Иргэний бүртгэлийн дугаар</span>
+                            <span class="label">Регистрийн дугаар / Civil ID</span>
                             <span class="value reg-number" id="displayRegNumber">000000000000</span>
                         </div>
                     </div>
@@ -163,9 +210,62 @@
             </div>
 
             <div class="card-back">
-                <div class="header">
-                    <div class="header-text">УЛСЫН БҮРТГЭЛИЙН ЕРӨНХИЙ ГАЗАР</div>
+                <p class="label">УЛСЫН БҮРТГЭЛИЙН ЕРӨНХИЙ ГАЗАР</p>
+                <div style="margin: 20px 0; border: 1px dashed #ccc; padding: 10px; width: 80%;">
+                    <p class="label" style="font-size: 8px;">Оршин суугаа хаяг / Address</p>
+                    <p class="value" style="font-size: 9px;">УЛААНБААТАР ХОТ, МОНГОЛ УЛС</p>
                 </div>
-                <div style="margin-top: 50px; text-align: center;">
-                    <p class="label">Оршин суугаа хаяг / Address</p>
-                    <p class="value"
+                <div style="background: #333; color: white; padding: 5px 10px; font-size: 10px; border-radius: 4px;">
+                    QR CODE VERIFIED
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="input-form">
+        <h3 style="margin: 0 0 15px 0; font-size: 18px; color: var(--emongolia-blue);">Update Information</h3>
+        <input type="text" id="inputFamily" placeholder="Овог">
+        <input type="text" id="inputSurname" placeholder="Эцэг/эх-ийн нэр">
+        <input type="text" id="inputGiven" placeholder="Нэр">
+        <input type="text" id="inputReg" placeholder="Регистрийн дугаар">
+        <button onclick="saveData()">Хадгалах (Save Permanent)</button>
+    </div>
+
+    <script>
+        // Check for saved data when page opens
+        window.onload = function() {
+            const savedData = localStorage.getItem('emongolia_id_v2');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                updateUI(data);
+                // Pre-fill inputs
+                document.getElementById('inputFamily').value = data.family || '';
+                document.getElementById('inputSurname').value = data.surname || '';
+                document.getElementById('inputGiven').value = data.given || '';
+                document.getElementById('inputReg').value = data.reg || '';
+            }
+        };
+
+        function saveData() {
+            const userData = {
+                family: document.getElementById('inputFamily').value,
+                surname: document.getElementById('inputSurname').value,
+                given: document.getElementById('inputGiven').value,
+                reg: document.getElementById('inputReg').value
+            };
+
+            localStorage.setItem('emongolia_id_v2', JSON.stringify(userData));
+            updateUI(userData);
+            alert("Information Saved! It will remain even if you switch apps.");
+        }
+
+        function updateUI(data) {
+            document.getElementById('displayFamilyName').innerText = data.family || '---';
+            document.getElementById('displaySurname').innerText = data.surname || '---';
+            document.getElementById('displayGivenName').innerText = data.given || '---';
+            document.getElementById('displayRegNumber').innerText = data.reg || '000000000000';
+        }
+    </script>
+</body>
+</html>
