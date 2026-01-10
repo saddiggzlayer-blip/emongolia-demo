@@ -3,121 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>e-Mongolia Wallet</title>
-    <link rel="stylesheet" href="style.css">
+    <title>E-Mongolia ID Demo</title>
+    <style>
+        :root {
+            --emongolia-blue: #0066FF;
+            --label-blue: #0044CC;
+            --text-black: #1a1a1a;
+            --card-bg: #fdf5e6; /* Cream/Beige like the real card */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f7f9;
+            padding: 20px;
+        }
+
+        /* --- CARD STYLING --- */
+        .card-container {
+            perspective: 1000px;
+            width: 350px;
+            height: 220px;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* Flip logic */
+        .card-container.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* FIX: Prevents mirror effect */
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border: 1px solid #dcdcdc;
+            overflow: hidden;
+        }
+
+        .card-back {
+            transform: rotateY(180deg); /* PRE-ROTATED BACK */
+        }
+
+        /* --- FRONT CONTENT --- */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 5px;
+        }
+
+        .flag { width: 30px; height: 15px; }
+        .header-text { font-size: 8px; font-weight: bold; line-height: 1.2; }
+
+        .body-layout { display: flex; gap: 15px; margin-top: 10px; }
+        .photo-box {
+            width: 90px;
+            height: 115px;
+            background: #eee;
+            border: 1px solid #ccc;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .info-fields { flex: 1; }
+        .field { margin-bottom: 6px; line-height: 1.1; }
+        .label { color: var(--label-blue); font-size: 8px; font-weight: bold; display: block; }
+        .value { color: var(--text-black); font-size: 11px; font-weight: bold; text-transform: uppercase; }
+
+        /* REG NUMBER COLOR FIX */
+        .reg-number {
+            color: #000 !important; 
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        /* --- INPUT FORM --- */
+        .input-form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            width: 350px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--emongolia-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover { background: #0052cc; }
+    </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <div class="app-header">
-            <span class="back-arrow">‹</span>
-            <h1>Миний бичиг баримт</h1>
-            <div class="settings-icon" onclick="toggleEditor()">⚙️</div>
-        </div>
-
-        <div class="card-scene">
-            <div class="id-card" id="card" onclick="flipCard()">
-                
-                <div class="id-front">
-                    <div class="security-pattern"></div>
-                    <div class="card-header">
-                        <div class="flag-mn">
-                            <div class="soyombo"></div>
-                        </div>
-                        <div class="header-titles">
-                            <p class="mn-title">МОНГОЛ УЛСЫН ИРГЭНИЙ ҮНЭМЛЭХ</p>
-                            <p class="en-title">CITIZEN IDENTITY CARD OF MONGOLIA</p>
-                        </div>
+    <div class="card-container" id="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+            
+            <div class="card-front">
+                <div class="header">
+                    <div style="background: red; width: 10px; height: 15px;"></div> <div class="header-text">
+                        МОНГОЛ УЛСЫН ИРГЭНИЙ ҮНЭМЛЭХ<br>
+                        CITIZEN IDENTITY CARD OF MONGOLIA
                     </div>
-                    
-                    <div class="card-body">
-                        <div class="photo-container">
-                            <img id="id-photo" src="https://via.placeholder.com/100x125?text=Photo">
+                </div>
+                <div class="body-layout">
+                    <div class="photo-box" id="displayPhoto"></div>
+                    <div class="info-fields">
+                        <div class="field">
+                            <span class="label">Овог / Family name</span>
+                            <span class="value" id="displayFamilyName">---</span>
                         </div>
-                        <div class="info-grid">
-                            <div class="field">
-                                <label>Овог <small>Family name</small></label>
-                                <div id="display-fname" class="val">---</div>
-                            </div>
-                            <div class="field">
-                                <label>Эцэг /эх/ нэр <small>Surname</small></label>
-                                <div id="display-sname" class="val">---</div>
-                            </div>
-                            <div class="field">
-                                <label>Нэр <small>Given name</small></label>
-                                <div id="display-name" class="val">---</div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <label>Хүйс <small>Sex</small></label>
-                                    <div id="display-sex" class="val">---</div>
-                                </div>
-                                <div class="col">
-                                    <label>Төрсөн <small>Birth</small></label>
-                                    <div id="display-date" class="val">0000.00.00</div>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label>Регистрийн дугаар <small>Reg Number</small></label>
-                                <div id="display-id-num" class="val red-text">AA00000000</div>
-                            </div>
+                        <div class="field">
+                            <span class="label">Эцэг/эх-ийн нэр / Surname</span>
+                            <span class="value" id="displaySurname">---</span>
+                        </div>
+                        <div class="field">
+                            <span class="label">Нэр / Given name</span>
+                            <span class="value" id="displayGivenName">---</span>
+                        </div>
+                        <div class="field">
+                            <span class="label">Иргэний бүртгэлийн дугаар</span>
+                            <span class="value reg-number" id="displayRegNumber">000000000000</span>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="id-back">
-                    <div class="security-pattern"></div>
-                    <div class="back-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Emblem_of_Mongolia.svg/512px-Emblem_of_Mongolia.svg.png" class="state-logo">
-                        <div class="back-text">
-                            <p>Олгосон байгууллага <small>Issuing authority</small></p>
-                            <p class="authority-name">УЛСЫН БҮРТГЭЛИЙН ЕРӨНХИЙ ГАЗАР</p>
-                        </div>
-                    </div>
-                    <div class="back-mid">
-                        <div class="gold-chip"></div>
-                        <div class="back-info">
-                            <label>Олгосон <small>Issue</small></label>
-                            <div id="display-issue" class="val">0000/00/00</div>
-                            <label>Хүчинтэй <small>Expiry</small></label>
-                            <div id="display-expiry" class="val">0000/00/00</div>
-                        </div>
-                    </div>
-                    <div class="qr-container">
-                        <div class="qr-placeholder"></div>
-                        <div class="mng-stamp">MNG</div>
-                    </div>
+            <div class="card-back">
+                <div class="header">
+                    <div class="header-text">УЛСЫН БҮРТГЭЛИЙН ЕРӨНХИЙ ГАЗАР</div>
                 </div>
-            </div>
-        </div>
-
-        <div class="app-buttons">
-            <button class="btn-blue">Лавлагаа авах</button>
-            <button class="btn-light">Дахин захиалах</button>
-        </div>
-
-        <div id="editor-panel" class="editor-panel hidden">
-            <div class="editor-top">
-                <h3>Засварлах</h3>
-                <button onclick="toggleEditor()">×</button>
-            </div>
-            <div class="editor-scroll">
-                <label>Зураг (Upload Photo):</label>
-                <input type="file" id="image-input" accept="image/*">
-                <input type="text" id="fname-input" placeholder="Овог">
-                <input type="text" id="sname-input" placeholder="Эцэг/эх нэр">
-                <input type="text" id="name-input" placeholder="Нэр">
-                <input type="text" id="sex-input" placeholder="Хүйс (Эр/Эм)">
-                <input type="date" id="date-input">
-                <input type="text" id="id-num-input" placeholder="Регистрийн дугаар (AA00000000)">
-                <label>Олгосон / Дуусах өдөр:</label>
-                <input type="date" id="issue-input">
-                <input type="date" id="expiry-input">
-            </div>
-            <button class="save-btn" onclick="updateID()">Мэдээлэл хадгалах</button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+                <div style="margin-top: 50px; text-align: center;">
+                    <p class="label">Оршин суугаа хаяг / Address</p>
+                    <p class="value"
