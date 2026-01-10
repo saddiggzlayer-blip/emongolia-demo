@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Mongolia ID Pro</title>
+    <title>E-Mongolia ID Fix</title>
     <style>
         :root {
             --emongolia-blue: #0066FF;
@@ -18,16 +18,15 @@
             flex-direction: column;
             align-items: center;
             background-color: #f0f2f5;
-            margin: 0;
             padding: 20px;
         }
 
         /* --- THE CARD --- */
         .card-container {
             perspective: 1000px;
-            width: 360px;
-            height: 225px;
-            margin: 20px 0;
+            width: 350px;
+            height: 220px;
+            margin-bottom: 20px;
             cursor: pointer;
         }
 
@@ -39,7 +38,10 @@
             transform-style: preserve-3d;
         }
 
-        .card-container.flipped .card-inner { transform: rotateY(180deg); }
+        /* This makes the flip work */
+        .card-container.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
 
         .card-front, .card-back {
             position: absolute;
@@ -49,219 +51,161 @@
             background-color: var(--card-bg);
             border-radius: 12px;
             padding: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border: 1px solid #dcdcdc;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 1px solid #ddd;
             box-sizing: border-box;
             overflow: hidden;
         }
 
-        /* --- BEIGE SOYOMBO WATERMARK --- */
-        .soyombo-watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 180px;
-            opacity: 0.04; /* Very subtle like the real one */
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* --- FRONT CONTENT --- */
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            padding-bottom: 5px;
-            z-index: 1;
-            position: relative;
-        }
-
-        .flag-img { width: 30px; border-radius: 2px; }
-        .header-text { font-size: 8px; font-weight: 900; line-height: 1.2; }
-
-        .card-body {
-            display: flex;
-            gap: 15px;
-            margin-top: 12px;
-            z-index: 1;
-            position: relative;
-        }
-
-        .photo-area {
-            width: 100px;
-            height: 130px;
-            background: #e0e0e0;
-            border: 1px solid #bbb;
-            background-size: cover;
-            background-position: center;
-            border-radius: 4px;
-            flex-shrink: 0;
-        }
-
-        .info-area { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-        .field { display: flex; flex-direction: column; }
-        .label { color: var(--label-blue); font-size: 7px; font-weight: bold; }
-        .value { color: var(--text-black); font-size: 10px; font-weight: bold; text-transform: uppercase; }
-        
-        .reg-number { color: #000 !important; font-size: 13px; margin-top: 3px; font-weight: 800; }
-
-        /* VERTICAL MONGOLIAN SCRIPT */
-        .vertical-script {
-            position: absolute;
-            right: 10px;
-            top: 45px;
-            writing-mode: vertical-lr;
-            font-size: 16px;
-            color: rgba(0,0,0,0.12);
-            font-weight: bold;
-            letter-spacing: 3px;
-        }
-
-        /* --- BACK CONTENT --- */
         .card-back {
             transform: rotateY(180deg);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 15px;
+            justify-content: space-around;
         }
 
+        /* --- FRONT DESIGN --- */
+        .header { display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .header-text { font-size: 8px; font-weight: bold; }
+        .body-row { display: flex; gap: 10px; margin-top: 10px; }
+        
+        #photoDisplay {
+            width: 90px;
+            height: 115px;
+            background: #e0e0e0;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid #ccc;
+        }
+
+        .info-col { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+        .label { color: var(--label-blue); font-size: 7px; font-weight: bold; }
+        .val { color: var(--text-black); font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .reg-val { color: #000 !important; font-size: 11px; font-weight: 800; }
+
+        .soyombo-bg {
+            position: absolute;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 150px; opacity: 0.05; z-index: 0;
+        }
+
+        /* Blue Soyombo for back */
         .soyombo-blue {
-            width: 50px;
-            height: 70px;
-            background: #003399; /* The Deep Blue Soyombo */
+            width: 40px; height: 60px; background: #003399;
             mask: url('https://upload.wikimedia.org/wikipedia/commons/a/af/Soyombo_symbol.svg') no-repeat center;
             -webkit-mask: url('https://upload.wikimedia.org/wikipedia/commons/a/af/Soyombo_symbol.svg') no-repeat center;
-            mask-size: contain;
-            -webkit-mask-size: contain;
         }
 
-        /* --- INPUT FORM --- */
-        .input-form {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            width: 350px;
-            margin-bottom: 50px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        .input-group { margin-bottom: 8px; }
-        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; background: var(--emongolia-blue); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        /* --- FORM --- */
+        .form-box { background: white; padding: 20px; border-radius: 10px; width: 330px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        input { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: var(--emongolia-blue); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="card-container" id="card" onclick="this.classList.toggle('flipped')">
+    <div class="card-container" id="myCard" onclick="this.classList.toggle('flipped')">
         <div class="card-inner">
             
             <div class="card-front">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Soyombo_symbol.svg" class="soyombo-watermark">
-                <div class="vertical-script">ᠮᠣᠩᠭᠣᠯ ᠤᠯᠤᠰ</div>
-                
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Soyombo_symbol.svg" class="soyombo-bg">
                 <div class="header">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Mongolia.svg/2560px-Flag_of_Mongolia.svg.png" class="flag-img">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Mongolia.svg/2560px-Flag_of_Mongolia.svg.png" width="25">
                     <div class="header-text">МОНГОЛ УЛСЫН ИРГЭНИЙ ҮНЭМЛЭХ<br>CITIZEN IDENTITY CARD OF MONGOLIA</div>
                 </div>
-
-                <div class="card-body">
-                    <div class="photo-area" id="displayPhoto"></div>
-                    <div class="info-area">
-                        <div class="field"><span class="label">Овог / Family name</span><span class="value" id="displayFamily">---</span></div>
-                        <div class="field"><span class="label">Эцэг/эх-ийн нэр / Surname</span><span class="value" id="displaySurname">---</span></div>
-                        <div class="field"><span class="label">Нэр / Given name</span><span class="value" id="displayGiven">---</span></div>
-                        <div class="field"><span class="label">Төрсөн огноо / Date of birth</span><span class="value" id="displayBirth">---</span></div>
-                        <div class="field"><span class="label">Регистрийн дугаар / Civil ID</span><span class="value reg-number" id="displayReg">000000000000</span></div>
+                <div class="body-row">
+                    <div id="photoDisplay"></div>
+                    <div class="info-col">
+                        <div class="label">Овог</div><div class="val" id="outFam">---</div>
+                        <div class="label">Эцэг/эх-ийн нэр</div><div class="val" id="outSur">---</div>
+                        <div class="label">Нэр</div><div class="val" id="outGiv">---</div>
+                        <div class="label">Төрсөн огноо</div><div class="val" id="outBir">---</div>
+                        <div class="label">Регистрийн дугаар</div><div class="val reg-val" id="outReg">000000000000</div>
                     </div>
                 </div>
             </div>
 
             <div class="card-back">
-                <div class="header-text" style="font-size: 10px; text-align: center; width: 100%; border-bottom: 1px solid #eee; padding-bottom: 5px;">УЛСЫН БҮРТГЭЛИЙН ЕРӨНХИЙ ГАЗАР</div>
-                
+                <div class="header-text">УЛСЫН БҮРТГЭЛИЙН ЕРӨНХИЙ ГАЗАР</div>
                 <div class="soyombo-blue"></div>
-                
-                <div style="width: 100%; display: flex; justify-content: space-around; text-align: center;">
-                    <div><span class="label">Олгосон / Issued</span><br><span class="value" id="displayIssue">---</span></div>
-                    <div><span class="label">Хүчинтэй / Expiry</span><br><span class="value" id="displayExpiry">---</span></div>
+                <div style="display:flex; width:100%; justify-content: space-around; text-align: center;">
+                    <div><span class="label">Олгосон</span><br><span class="val" id="outIss">---</span></div>
+                    <div><span class="label">Хүчинтэй</span><br><span class="val" id="outExp">---</span></div>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <div class="input-form">
-        <h3 style="margin: 0 0 15px 0; color: var(--emongolia-blue);">Update Information</h3>
-        
-        <input type="file" accept="image/*" onchange="previewFile()" style="margin-bottom: 10px;">
-        <input type="text" id="inFamily" placeholder="Овог">
-        <input type="text" id="inSurname" placeholder="Эцэг/эх-ийн нэр">
-        <input type="text" id="inGiven" placeholder="Нэр">
-        <input type="text" id="inBirth" placeholder="Төрсөн огноо (YYYY.MM.DD)">
+    <div class="form-box">
+        <input type="file" accept="image/*" onchange="uploadPhoto()">
+        <input type="text" id="inFam" placeholder="Овог">
+        <input type="text" id="inSur" placeholder="Эцэг/эх-ийн нэр">
+        <input type="text" id="inGiv" placeholder="Нэр">
+        <input type="text" id="inBir" placeholder="Төрсөн огноо (YYYY.MM.DD)">
         <input type="text" id="inReg" placeholder="Регистрийн дугаар">
-        <input type="text" id="inIssue" placeholder="Олгосон огноо">
-        <input type="text" id="inExpiry" placeholder="Хүчинтэй хугацаа">
-        
-        <button onclick="saveData()">Save All Changes</button>
+        <input type="text" id="inIss" placeholder="Олгосон огноо">
+        <input type="text" id="inExp" placeholder="Хүчинтэй хугацаа">
+        <button onclick="doSave()">ХАДГАЛАХ (SAVE)</button>
     </div>
 
     <script>
-        function previewFile() {
-            const preview = document.getElementById('displayPhoto');
+        // Photo upload function
+        function uploadPhoto() {
             const file = document.querySelector('input[type=file]').files[0];
             const reader = new FileReader();
-            reader.onloadend = function () {
-                preview.style.backgroundImage = `url(${reader.result})`;
-                localStorage.setItem('user_photo', reader.result);
+            reader.onloadend = function() {
+                document.getElementById('photoDisplay').style.backgroundImage = "url(" + reader.result + ")";
+                localStorage.setItem('my_id_pic', reader.result);
             }
             if (file) reader.readAsDataURL(file);
         }
 
+        // Save data function
+        function doSave() {
+            const myData = {
+                f: document.getElementById('inFam').value,
+                s: document.getElementById('inSur').value,
+                g: document.getElementById('inGiv').value,
+                b: document.getElementById('inBir').value,
+                r: document.getElementById('inReg').value,
+                i: document.getElementById('inIss').value,
+                e: document.getElementById('inExp').value
+            };
+            localStorage.setItem('my_id_data', JSON.stringify(myData));
+            applyUI(myData);
+            alert("Saved successfully!");
+        }
+
+        // Load data on start
         window.onload = function() {
-            const saved = localStorage.getItem('user_data_final');
-            const savedPhoto = localStorage.getItem('user_photo');
+            const dataStr = localStorage.getItem('my_id_data');
+            const picStr = localStorage.getItem('my_id_pic');
             
-            if (savedPhoto) document.getElementById('displayPhoto').style.backgroundImage = `url(${savedPhoto})`;
-            if (saved) {
-                const data = JSON.parse(saved);
-                updateUI(data);
-                document.getElementById('inFamily').value = data.family || '';
-                document.getElementById('inSurname').value = data.surname || '';
-                document.getElementById('inGiven').value = data.given || '';
-                document.getElementById('inBirth').value = data.birth || '';
-                document.getElementById('inReg').value = data.reg || '';
-                document.getElementById('inIssue').value = data.issue || '';
-                document.getElementById('inExpiry').value = data.expiry || '';
+            if (picStr) document.getElementById('photoDisplay').style.backgroundImage = "url(" + picStr + ")";
+            if (dataStr) {
+                const d = JSON.parse(dataStr);
+                applyUI(d);
+                // Fill inputs so they don't disappear
+                document.getElementById('inFam').value = d.f;
+                document.getElementById('inSur').value = d.s;
+                document.getElementById('inGiv').value = d.g;
+                document.getElementById('inBir').value = d.b;
+                document.getElementById('inReg').value = d.r;
+                document.getElementById('inIss').value = d.i;
+                document.getElementById('inExp').value = d.e;
             }
         };
 
-        function saveData() {
-            const data = {
-                family: document.getElementById('inFamily').value,
-                surname: document.getElementById('inSurname').value,
-                given: document.getElementById('inGiven').value,
-                birth: document.getElementById('inBirth').value,
-                reg: document.getElementById('inReg').value,
-                issue: document.getElementById('inIssue').value,
-                expiry: document.getElementById('inExpiry').value
-            };
-            localStorage.setItem('user_data_final', JSON.stringify(data));
-            updateUI(data);
-            alert("Success! Information will not disappear.");
-        }
-
-        function updateUI(data) {
-            document.getElementById('displayFamily').innerText = data.family || '---';
-            document.getElementById('displaySurname').innerText = data.surname || '---';
-            document.getElementById('displayGiven').innerText = data.given || '---';
-            document.getElementById('displayBirth').innerText = data.birth || '---';
-            document.getElementById('displayReg').innerText = data.reg || '000000000000';
-            document.getElementById('displayIssue').innerText = data.issue || '---';
-            document.getElementById('displayExpiry').innerText = data.expiry || '---';
+        function applyUI(d) {
+            document.getElementById('outFam').innerText = d.f || '---';
+            document.getElementById('outSur').innerText = d.s || '---';
+            document.getElementById('outGiv').innerText = d.g || '---';
+            document.getElementById('outBir').innerText = d.b || '---';
+            document.getElementById('outReg').innerText = d.r || '000000000000';
+            document.getElementById('outIss').innerText = d.i || '---';
+            document.getElementById('outExp').innerText = d.e || '---';
         }
     </script>
 </body>
